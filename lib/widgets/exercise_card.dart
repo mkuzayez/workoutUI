@@ -6,10 +6,9 @@ import 'package:workout_ui/models/text_styling.dart';
 
 class ExerciseCard extends ConsumerStatefulWidget {
   const ExerciseCard(
-      {super.key, required this.exercise, required this.toggleCheckButton});
+      {super.key, required this.exercise,});
 
   final Exercise exercise;
-  final void Function(Exercise exercise, Set set) toggleCheckButton;
 
   @override
   ConsumerState<ExerciseCard> createState() => _ExerciseCardState();
@@ -85,8 +84,7 @@ class _ExerciseCardState extends ConsumerState<ExerciseCard> {
                         ),
                         Kgs(exercise: widget.exercise),
                         Checks(
-                            exercise: widget.exercise,
-                            toggleCheckButton: widget.toggleCheckButton)
+                            exercise: widget.exercise,)
                       ],
                     )
                   ],

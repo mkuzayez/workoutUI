@@ -1,7 +1,9 @@
 import "package:flutter/material.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_ui/bloc/workout_bloc.dart';
 import 'package:workout_ui/data/dummy_data.dart';
 import 'package:workout_ui/widgets/workout.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 const int workoutIdx = 0;
 
@@ -55,8 +57,11 @@ class Home extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(22, 50, 22, 100),
             child: ProviderScope(
-              child: WorkoutWidget(
-                workout: workouts[workoutIdx],
+              child: BlocProvider(
+                create: (context) => WorkoutBloc()..counter(),
+                child: WorkoutWidget(
+                  workout: workouts[workoutIdx],
+                ),
               ),
             ),
           ),

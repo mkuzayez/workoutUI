@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_ui/models/workout.dart';
+import '../bloc/workout_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Sets extends StatelessWidget {
   const Sets({super.key, required this.exercise});
@@ -116,10 +118,9 @@ class Kgs extends StatelessWidget {
 
 class Checks extends StatefulWidget {
   const Checks(
-      {super.key, required this.exercise, required this.toggleCheckButton});
+      {super.key, required this.exercise});
 
   final Exercise exercise;
-  final void Function(Exercise exercise, Set set) toggleCheckButton;
 
   @override
   State<Checks> createState() => _ChecksState();
@@ -128,55 +129,36 @@ class Checks extends StatefulWidget {
 class _ChecksState extends State<Checks> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        for (int i = 0; i < widget.exercise.sets.length; i++)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 1.5, 0, 1.5),
-            child: IconButton(
-              color: widget.exercise.sets[i].isChecked
-                  ? const Color.fromARGB(255, 255, 100, 0)
-                  : Colors.white,
-              padding: const EdgeInsets.all(0),
-              constraints: const BoxConstraints(),
-              onPressed: () {
-                widget.toggleCheckButton(
-                    widget.exercise, widget.exercise.sets[i]);
-              },
-              icon: const Icon(
-                Icons.check_box_outlined,
+    return BlocBuilder<WorkoutBloc, WorkoutState>(
+      builder: (context, state) {
+        final exercise = widget.exercise;
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            for (int i = 0; i < exercise.sets.length; i++)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 1.5, 0, 1.5),
+                child: IconButton(
+                  color: exercise.sets[i].isChecked
+                      ? const Color.fromARGB(255, 255, 100, 0)
+                      : Colors.white,
+                  padding: const EdgeInsets.all(0),
+                  constraints: const BoxConstraints(),
+                  onPressed: () {
+                    context.read<WorkoutBloc>().add(
+                          ToggleCheckButton(
+                              exercise, exercise.sets[i]),
+                        );
+                  },
+                  icon: const Icon(
+                    Icons.check_box_outlined,
+                  ),
+                ),
               ),
-            ),
-          ),
-      ],
+          ],
+        );
+      },
     );
   }
 }
-
-
-// InkWell(
-//               onTap: () {
-//                 widget.toggleCheckButton(
-//                     widget.exercise, widget.exercise.sets[i]);
-//               },
-//               child: Icon(
-//                 Icons.check_box_rounded,
-//                 color: widget.exercise.sets[i].isChecked
-//                     ? const Color.fromARGB(255, 255, 100, 0)
-//                     : Colors.white,
-//               ),
-//             ),
-
-
-            // padding: EdgeInsets.zero,
-            // constraints: const BoxConstraints(),
-            // icon: const Icon(Icons.check_box_rounded),
-            // onPressed: () {
-            //   widget.toggleCheckButton(
-            //       widget.exercise, widget.exercise.sets[i]);
-            // },
-            // color: widget.exercise.sets[i].isChecked
-            //     ? const Color.fromARGB(255, 255, 100, 0)
-            //     : Colors.white,

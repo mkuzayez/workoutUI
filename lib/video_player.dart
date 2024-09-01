@@ -50,7 +50,7 @@
 import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:flutter/material.dart';
 
-enum Source { Asset, Network }
+enum Source { asset, network }
 
 class ExerciseVideoAppinio extends StatefulWidget {
   const ExerciseVideoAppinio({super.key});
@@ -62,7 +62,7 @@ class ExerciseVideoAppinio extends StatefulWidget {
 class _ExerciseVideoAppinioState extends State<ExerciseVideoAppinio> {
   late CustomVideoPlayerController _customVideoPlayerController;
 
-  Source currentSource = Source.Asset;
+  Source currentSource = Source.asset;
 
   String assetVideoPath = "assets/push-up.mp4";
 
@@ -109,15 +109,15 @@ class _ExerciseVideoAppinioState extends State<ExerciseVideoAppinio> {
     setState(() {
       isLoading = true;
     });
-    VideoPlayerController _videoPlayerController;
+    VideoPlayerController videoPlayerController;
 
-    _videoPlayerController = VideoPlayerController.asset(assetVideoPath)
+    videoPlayerController = VideoPlayerController.asset(assetVideoPath)
       ..initialize().then((value) {
         setState(() {
           isLoading = false;
         });
       });
     _customVideoPlayerController = CustomVideoPlayerController(
-        context: context, videoPlayerController: _videoPlayerController);
+        context: context, videoPlayerController: videoPlayerController);
   }
 }
